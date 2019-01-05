@@ -26,4 +26,15 @@ contract MessageStore is Ownable {
     function getBalanceInEther() public view returns (uint) {
         return getBalance() / 1e18;
     }
+    
+    function transfer(uint amount) public isOwner {
+        require(address(this).balance >= amount);
+        owner.transfer(amount);
+    }
+    
+    function transferTo(uint amount, address to) public isOwner {
+        require(address(this).balance >= amount);
+        require(to != address(0));
+        to.transfer(amount);
+    }
 }
